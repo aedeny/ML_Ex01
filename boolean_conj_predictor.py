@@ -4,9 +4,18 @@ import numpy as np
 class Hypothesis:
     def __init__(self, dimension):
         self.dimension = dimension
+
+        # Creates the null hypothesis
         self.hypothesis = [1 for i in range(2 * dimension)]
 
     def is_correct(self, example, tag):
+        """
+        Checks if the hypothesis corresponds to the example.
+        :param example: An instance of the training data
+        :param tag: The tag of this instance
+        :return: True if the hypothesis corresponds to the example, False otherwise.
+        """
+
         if tag == 0:
             return True
 
@@ -21,6 +30,11 @@ class Hypothesis:
         return hypothesis_result == tag
 
     def improve(self, example):
+        """
+        Improves the hypothesis using the example.
+        :param example:
+        :return:None
+        """
         for i in range(len(example)):
             if example[i] == 1:
                 self.hypothesis[2 * i + 1] = 0
@@ -28,6 +42,9 @@ class Hypothesis:
                 self.hypothesis[2 * i] = 0
 
     def __repr__(self):
+        """
+        :return: A string representing the boolean conjunction in the specified format.
+        """
         to_print = ""
         should_separate = False
 
@@ -37,6 +54,7 @@ class Hypothesis:
                     to_print += ","
                     should_separate = False
 
+                # Adds literals to the string
                 if k % 2 == 0:
                     to_print += "not(x" + str(k / 2 + 1) + ")"
                 else:
@@ -55,8 +73,11 @@ if __name__ == '__main__':
     # Creates the null hypothesis
     h = Hypothesis(dim)
 
+    # Iterates over the examples and checks the hypothesis
     for k in range(len(x_matrix)):
         if not h.is_correct(x_matrix[k], tag_vector[k]):
             h.improve(x_matrix[k])
 
-    print(h)
+    with open('output.txt', 'w') as f:
+        f.write(str(h))
+    f.close()
