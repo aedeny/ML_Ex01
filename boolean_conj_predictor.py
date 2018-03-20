@@ -52,7 +52,6 @@ class Hypothesis:
             if self.hypothesis[k] == 1:
                 if should_separate:
                     to_print += ","
-                    should_separate = False
 
                 # Adds literals to the string
                 if k % 2 == 0:
@@ -73,7 +72,8 @@ if __name__ == '__main__':
     # Creates the null hypothesis
     h = Hypothesis(dim)
 
-    # Iterates over the examples and checks the hypothesis
+    # Iterates over the examples and checks if the hypothesis matches the examples.
+    # If not, the hypothesis will be improved.
     for k in range(len(x_matrix)):
         if not h.is_correct(x_matrix[k], tag_vector[k]):
             h.improve(x_matrix[k])
@@ -81,3 +81,6 @@ if __name__ == '__main__':
     with open('output.txt', 'w') as f:
         f.write(str(h))
     f.close()
+
+    # # Uncomment to print to console
+    # print(h)
