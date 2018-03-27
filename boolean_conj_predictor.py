@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 
 class Hypothesis:
@@ -36,7 +37,7 @@ class Hypothesis:
         :return:None
         """
         for i in range(len(example)):
-            if example[i] == 1:
+            if example[i] == 0:
                 self.hypothesis[2 * i + 1] = 0
             else:
                 self.hypothesis[2 * i] = 0
@@ -64,7 +65,20 @@ class Hypothesis:
 
 
 if __name__ == '__main__':
-    training_examples = np.loadtxt('data.txt')
+    if len(sys.argv) != 2:
+        print("No argument of data file name.")
+        exit(-1)
+
+    training_examples = None
+    try:
+        training_examples = np.loadtxt(sys.argv[1])
+    except IOError:
+        print("No file named \"" + sys.argv[1] + "\" was found in current directory.")
+        exit(-1)
+    except ValueError:
+        print("Bad file format.")
+        exit(-1)
+
     dim = training_examples.shape[1] - 1
     x_matrix = training_examples[:, range(0, dim)].tolist()
     tag_vector = training_examples[:, dim].tolist()

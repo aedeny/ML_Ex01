@@ -1,1 +1,1 @@
-x1,not(x2),not(x5),not(x6)
+not(x1),x2,x5,x6
